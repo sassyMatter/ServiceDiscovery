@@ -29,6 +29,9 @@ services:
   registrator:
     image: gliderlabs/registrator:latest
     container_name: registrator
+    depends_on:
+      - consul-server
+      - consul-client
 
     command: "consul://consul-server:8500"
     volumes:
