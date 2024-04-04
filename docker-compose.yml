@@ -1,20 +1,28 @@
 version: '3.7'
 
+networks:
+   consul-network:
+     name: consul-network
+
+
 services:
   
   consul-server:
     image: hashicorp/consul:1.10.0
     container_name: consul-server
     restart: always
+    networks:
+      - consul-network
     volumes:
       - ./server.json:/consul/config/server.json:ro
-#    networks:
-#      - consul
     ports:
-      - "8500:8500"
-      - "8600:8600/tcp"
-      - "8600:8600/udp"
-    command: "agent"
+      - "8505:8505"
+#      - "8600:8600/tcp"
+#      - "8600:8600/udp"
+
+
+
+#    command: "agent"
 
 #  consul-client:
 #    image: hashicorp/consul:1.10.0
@@ -26,18 +34,18 @@ services:
 #      - consul
 #    command: "agent"
 #
-#  registrator:
-#    image: gliderlabs/registrator:latest
-#    container_name: registrator
-#    depends_on:
-#      - consul-server
-#      - consul-client
-#
-#    command: "consul://consul-server:8500"
-#    volumes:
-#      - /var/run/docker.sock:/tmp/docker.sock
-#    networks:
-#      - consul
+  registrator:
+    image: gliderlabs/registrator:latest
+    container_name: registrator
+    depends_on:
+      - consul-server
+    
+   
+    command: "consul://consul-server:8505"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    networks:
+      - consul-network
 #
 #networks:
 #  consul:

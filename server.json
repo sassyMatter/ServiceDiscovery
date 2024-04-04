@@ -5,6 +5,9 @@
   "ui_config": {
     "enabled" : true
   },
+  "ports": {
+    "http": 8505
+  },
   "data_dir": "/consul/data",
   "addresses": {
     "http" : "0.0.0.0"
